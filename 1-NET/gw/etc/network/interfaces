@@ -16,8 +16,7 @@ iface ens3 inet dhcp
 # Added interfaces
 auto ens4
 iface ens4 inet static
-	address 10.0.0.1/24
-	netmask 255.255.255.0
+	address 10.0.0.1/8
 	broadcast 10.0.0.255
 
 

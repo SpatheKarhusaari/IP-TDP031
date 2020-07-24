@@ -11,6 +11,6 @@ iface lo inet loopback
 # The primary network interface (student modified)
 auto ens3
 iface ens3 inet static
-        address 10.0.0.3/24
+        address 10.0.0.3/8
         gateway 10.0.0.1 #Private IP for router
         broadcast 10.0.0.255

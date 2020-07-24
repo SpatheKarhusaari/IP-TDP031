@@ -20,9 +20,18 @@ IP: 10.0.0.1
 * [/proc/sys/net/ipv4/ip_forward](../1-NET/gw/proc/sys/net/ipv4/ip_forward)
     * created through the command on the course page. Does no persists through reboot. Use the above setup instead
 
-### client-1
+### server
 ```
 IP: 10.0.0.2
+```
+* [/etc/network/interfaces](../1-NET/server/etc/network/interfaces)
+* [/etc/hostname](../1-NET/server/etc/hostname)
+* [/etc/hosts](../1-NET/server/etc/hosts)
+* [/etc/resolv.conf](../1-NET/server/etc/resolv.conf)
+
+### client-1
+```
+IP: 10.0.0.3
 ```
 * [/etc/network/interfaces](../1-NET/client-1/etc/network/interfaces)
 * [/etc/hostname](../1-NET/client-1/etc/hostname)
@@ -31,21 +40,12 @@ IP: 10.0.0.2
 
 ### client-2
 ```
-IP: 10.0.0.3
+IP: 10.0.0.4
 ```
 * [/etc/network/interfaces](../1-NET/client-2/etc/network/interfaces)
 * [/etc/hostname](../1-NET/client-2/etc/hostname)
 * [/etc/hosts](../1-NET/client-2/etc/hosts)
 * [/etc/resolv.conf](../1-NET/client-2/etc/resolv.conf)
-
-### server
-```
-IP: 10.0.0.4
-```
-* [/etc/network/interfaces](../1-NET/server/etc/network/interfaces)
-* [/etc/hostname](../1-NET/server/etc/hostname)
-* [/etc/hosts](../1-NET/server/etc/hosts)
-* [/etc/resolv.conf](../1-NET/server/etc/resolv.conf)
 
 ## Tests
 * [check_hostname.py](../1-NET/tests/check_hostname.py)
