@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+
+# Breaking: ifdown ens4 on router, ifdown ens3 on any other vm
+
 import pexpect
 import sys
 
@@ -8,17 +11,17 @@ def debug(to_print):
     if DEBUG:
         print(" DEBUG: " + to_print)
 
-def establish_ssh_and_setup(ip, ssh_client = None):
+def establish_ssh_and_setup(ip, setup_files, ssh_client = None):
     # Copy the needed files
     # If provided with a already set up ssh connection,
     # Copy the needed files through the provided connection.
     if ssh_client == None:
         debug("Setting up, using scp, on " + ip)
-        child = pexpect.spawn("scp -r -P 2220  check_hostname.py root@" + ip + ":~/")
+        child = pexpect.spawn("scp -r -P 2220 " + setup_files + " root@" + ip + ":~/")
     else:
         debug("Setting up, using scp, on " + ip + " through provided ssh-connection")
         child = ssh_client
-        child.sendline("scp -r check_hostname.py root@" + ip + ":~/")
+        child.sendline("scp -r " + setup_files + " root@" + ip + ":~/")
     child.expect("root@" + ip + "'s password:" or pexpect.TIMEOUT)
     child.sendline("password")
 
@@ -50,18 +53,18 @@ def test_hostname(ssh_client, hostname):
     result = str(ssh_client.after.rstrip().decode("utf-8"))
     debug(" Testing Hostname for \""+ hostname + "\"")
     assert(result == "Result: True")
-    debug("     " + result + "\n")
+    debug("     " + result)
 
 def test_ping(ssh_client, ip):
     # Ping provided ip
-    ssh_client.sendline("ping -c 1 " + ip)
+    ssh_client.sendline("ping -c 1 -W 1 " + ip)
     ssh_client.expect("1 packets transmitted,.*" or pexpect.TIMEOUT)
     
     # Parse result
     result = str(ssh_client.after.rstrip().decode("utf-8"))
     debug("     Test pinging: "+ ip)
     assert(" 0% packet loss" in result)
-    debug("         PASSED\n")
+    debug("         PASSED")
 
 def run_tests(ssh_client, hostname):
     debug("Running tests for: \"" + hostname + "\"")
@@ -76,7 +79,7 @@ def run_tests(ssh_client, hostname):
     debug(" Testing External Connectivity without name lookup")
     ssh_client.sendline("curl 91.198.174.194") #IP address of wikipedia.com
     ssh_client.expect("</html>" or pexpect.TIMEOUT)
-    debug("     PASSED\n")
+    debug("     PASSED")
 
 
     debug(" Testing External Connectivity with name lookup")
@@ -89,11 +92,11 @@ if __name__ == "__main__":
         DEBUG = sys.argv[1].upper() == 'DEBUG'
 
     # Establish ssh to router and run tests
-    ssh_client = establish_ssh_and_setup("127.0.0.1")
+    ssh_client = establish_ssh_and_setup("127.0.0.1", "check_hostname.py")
     run_tests(ssh_client, "gw")
 
     # Establish ssh to server and run tests
-    ssh_client = establish_ssh_and_setup("10.0.0.2", ssh_client)
+    ssh_client = establish_ssh_and_setup("10.0.0.2", "check_hostname.py", ssh_client)
     run_tests(ssh_client, "server")
     
     # Cleanup on server and exit back to router
@@ -102,7 +105,7 @@ if __name__ == "__main__":
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
 
     # Establish ssh to client-1 and run tests
-    ssh_client = establish_ssh_and_setup("10.0.0.3", ssh_client)
+    ssh_client = establish_ssh_and_setup("10.0.0.3", "check_hostname.py", ssh_client)
     run_tests(ssh_client, "client-1")
     
     # Cleanup on client-1 and exit back to router
@@ -111,7 +114,7 @@ if __name__ == "__main__":
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
 
     # Establish ssh to client-2 and run tests
-    ssh_client = establish_ssh_and_setup("10.0.0.4", ssh_client)
+    ssh_client = establish_ssh_and_setup("10.0.0.4", "check_hostname.py", ssh_client)
     run_tests(ssh_client, "client-2")
     
     # Cleanup on client-2 and exit back to router
@@ -119,10 +122,9 @@ if __name__ == "__main__":
     ssh_client.sendline("exit")
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
 
-    # Cleanup on router and close ssh connection
+    # Cleanup on router
     ssh_client.sendline("rm check_hostname.py")
     ssh_client.sendline("exit")
-    ssh_client.close()
 
 # End
 print("ALL NET TESTS PASSED")

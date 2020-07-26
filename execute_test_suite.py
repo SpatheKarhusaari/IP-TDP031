@@ -16,7 +16,9 @@ if __name__ == "__main__":
     print("##################################################\n") 
 
     # DNS tests
-    print("DNS TESTS NOT IMPLEMENTED")
+    os.chdir("2-DNS/tests")
+    os.system("python3 start_DNS_tests.py " + DEBUG)
+    os.chdir("../../")
     print("##################################################\n") 
 
     # NTP tests

@@ -17,8 +17,6 @@ IP: 10.0.0.1
     * IP is taken from instructions
 * [/etc/sysctl.conf](../1-NET/gw/etc/sysctl.conf)
     * remove # from the line containing: `net.ipv4.ip_forward=1`
-* [/proc/sys/net/ipv4/ip_forward](../1-NET/gw/proc/sys/net/ipv4/ip_forward)
-    * created through the command on the course page. Does no persists through reboot. Use the above setup instead
 
 ### server
 ```
