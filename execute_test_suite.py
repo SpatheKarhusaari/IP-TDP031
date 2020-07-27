@@ -22,7 +22,9 @@ if __name__ == "__main__":
     print("##################################################\n") 
 
     # NTP tests
-    print("NTP TESTS NOT IMPLEMENTED")
+    os.chdir("3-NTP/tests")
+    os.system("python3 start_NTP_tests.py " + DEBUG)
+    os.chdir("../../")
     print("##################################################\n") 
 
     # NIS tests

@@ -3,9 +3,8 @@
 Can be found on drive, NOT DONE
 ## Setup
 ### GW/Router
-```
-IP: 10.0.0.1
-```
+```IP: 10.0.0.1```
+
 * [/etc/network/interfaces](../1-NET/gw/etc/network/interfaces)
     * ifdown/ifup doesn't work for me, restart of system required after changes to interfaces
     * Added an interface for ens4 with the above IP
@@ -19,27 +18,24 @@ IP: 10.0.0.1
     * remove # from the line containing: `net.ipv4.ip_forward=1`
 
 ### server
-```
-IP: 10.0.0.2
-```
+```IP: 10.0.0.2```
+
 * [/etc/network/interfaces](../1-NET/server/etc/network/interfaces)
 * [/etc/hostname](../1-NET/server/etc/hostname)
 * [/etc/hosts](../1-NET/server/etc/hosts)
 * [/etc/resolv.conf](../1-NET/server/etc/resolv.conf)
 
 ### client-1
-```
-IP: 10.0.0.3
-```
+```IP: 10.0.0.3```
+
 * [/etc/network/interfaces](../1-NET/client-1/etc/network/interfaces)
 * [/etc/hostname](../1-NET/client-1/etc/hostname)
 * [/etc/hosts](../1-NET/client-1/etc/hosts)
 * [/etc/resolv.conf](../1-NET/client-1/etc/resolv.conf)
 
 ### client-2
-```
-IP: 10.0.0.4
-```
+```IP: 10.0.0.4```
+
 * [/etc/network/interfaces](../1-NET/client-2/etc/network/interfaces)
 * [/etc/hostname](../1-NET/client-2/etc/hostname)
 * [/etc/hosts](../1-NET/client-2/etc/hosts)

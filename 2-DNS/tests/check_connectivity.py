@@ -49,5 +49,5 @@ if __name__ == "__main__":
     # Parse result
     result = str(child.after.rstrip().decode("utf-8"))
     assert(" 0% packet loss" in result)
-    print("END")
+    print("PASSED")
 
