@@ -56,3 +56,5 @@ apt install ntpdate #for tests
     * Has to be ran on each individual machine. 
     * Use start_NTP_tests.py to facilitate this
 * [/tests/start_NTP_tests.py](../3-NTP/tests/start_NTP_tests.py)
+    * run using `python start_NTP_tests.py [debug]`
+    * You have to stand in the tests directory for this to work, no time to fix this

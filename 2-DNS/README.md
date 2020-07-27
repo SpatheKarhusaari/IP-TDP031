@@ -49,3 +49,5 @@ Can be found on drive, NOT DONE
     * Has to be ran on each individual machine. 
     * Use start_DNS_tests.py to facilitate this
 * [/tests/start_DNS_tests.py](../2-DNS/tests/start_DNS_tests.py)
+    * run using `python start_DNS_tests.py [debug]`
+    * You have to stand in the tests directory for this to work, no time to fix this
