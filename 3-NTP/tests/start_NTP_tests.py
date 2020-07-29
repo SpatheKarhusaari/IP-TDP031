@@ -6,6 +6,7 @@ import pexpect
 import sys
 
 DEBUG = False
+BREAKING = False
 
 def debug(to_print):
     if DEBUG:
@@ -45,8 +46,16 @@ def establish_ssh_and_setup(ip, setup_files, ssh_client = None):
     return child
 
 if __name__ == "__main__":
-    if len(sys.argv) == 2:
+    if len(sys.argv) >= 2:
         DEBUG = sys.argv[1].upper() == 'DEBUG'
+    if len(sys.argv) == 3:
+        BREAKING = sys.argv[2].upper() == "BREAKING"
+
+    breaking = ""
+    passed_result = "PASSED without breaking"
+    if BREAKING:
+        breaking = "break"
+        passed_result = "PASSED"
 
     # Establish ssh to router and run tests
     debug("Setting up tests on gw")
@@ -56,9 +65,10 @@ if __name__ == "__main__":
     # Establish ssh to server and run tests
     debug("Running Tests for server")
     ssh_client = establish_ssh_and_setup("10.0.0.2", "check_time_sync.py", ssh_client)
-    ssh_client.sendline("python3 check_time_sync.py")
+    debug("     Running test: \"check_time_sync.py\"")
+    ssh_client.sendline("python3 check_time_sync.py " + breaking)
     ssh_client.expect("PASSED" or pexpect.TIMEOUT)
-    debug("Passed\n")
+    debug(passed_result + "\n")
 
     # Cleanup on server and exit back to router
     ssh_client.sendline("rm check_time_sync.py")
@@ -66,11 +76,12 @@ if __name__ == "__main__":
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
 
     # Establish ssh to client-1 and run tests
-    debug("Running Tests for server")
+    debug("Running Tests for client-1")
     ssh_client = establish_ssh_and_setup("10.0.0.3", "check_time_sync.py", ssh_client)
-    ssh_client.sendline("python3 check_time_sync.py")
+    debug("     Running test: \"check_time_sync.py\"")
+    ssh_client.sendline("python3 check_time_sync.py " + breaking)
     ssh_client.expect("PASSED" or pexpect.TIMEOUT)
-    debug("Passed\n")
+    debug(passed_result + "\n")
 
     # Cleanup on client-1 and exit back to router
     ssh_client.sendline("rm check_time_sync.py")
@@ -78,11 +89,12 @@ if __name__ == "__main__":
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
     
     # Establish ssh to client-2 and run tests
-    debug("Running Tests for server")
+    debug("Running Tests for client-2")
     ssh_client = establish_ssh_and_setup("10.0.0.4", "check_time_sync.py", ssh_client)
-    ssh_client.sendline("python3 check_time_sync.py")
+    debug("     Running test: \"check_time_sync.py\"")
+    ssh_client.sendline("python3 check_time_sync.py " + breaking)
     ssh_client.expect("PASSED" or pexpect.TIMEOUT)
-    debug("Passed\n")
+    debug(passed_result + "\n")
 
     # Cleanup on client-2 and exit back to router
     ssh_client.sendline("rm check_time_sync.py")
@@ -90,7 +102,7 @@ if __name__ == "__main__":
     ssh_client.expect("root@gw:~# " or pexpect.TIMEOUT)
     
     # Cleanup on router
-    ssh_client.sendline("rm check_connectivity.py")
+    ssh_client.sendline("rm check_time_sync.py")
     ssh_client.sendline("exit")
 
     #END

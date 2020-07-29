@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
 
 import pexpect
+import sys
 from datetime import datetime
 
+BREAKING = False
 if __name__ == "__main__":
-    
+    if len(sys.argv) == 2:
+        BREAKING = sys.argv[1].upper() == "BREAK"
+
     # Testing connectivity to NTP Server
     child = pexpect.spawn("ntpdate -q 10.0.0.1")
     child.expect(pexpect.EOF or pexpect.TIMEOUT)
@@ -18,22 +22,23 @@ if __name__ == "__main__":
     assert("synchronised to NTP server (10.0.0.1)" in result)
     
     # Screwing up time and checking whether ntp fixes it
-    current_date = datetime.now()
-    child = pexpect.spawn("date -s \"1 year\"")
-    child.expect("" + str(current_date.year + 1) or pexpect.TIMEOUT)
-    wrong_date = datetime.now()
+    if BREAKING:
+        current_date = datetime.now()
+        child = pexpect.spawn("date -s \"1 year\"")
+        child.expect("" + str(current_date.year + 1) or pexpect.TIMEOUT)
+        wrong_date = datetime.now()
 
-    # Resetting NTP service and sync 
-    child = pexpect.spawn("service ntp stop")
-    child.expect(pexpect.EOF or pexpect.TIMEOUT)
-    child = pexpect.spawn("ntpd -gq >/dev/null")
-    child.expect(pexpect.EOF or pexpect.TIMEOUT)
-    child = pexpect.spawn("service ntp start >/dev/null")
-    child.expect(pexpect.EOF or pexpect.TIMEOUT)
+        # Resetting NTP service and sync 
+        child = pexpect.spawn("service ntp stop")
+        child.expect(pexpect.EOF or pexpect.TIMEOUT)
+        child = pexpect.spawn("ntpd -gq >/dev/null")
+        child.expect(pexpect.EOF or pexpect.TIMEOUT)
+        child = pexpect.spawn("service ntp start >/dev/null")
+        child.expect(pexpect.EOF or pexpect.TIMEOUT)
 
-    # Checking date is fixed
-    fixed_date = datetime.now()
-    assert(current_date.month == fixed_date.month and current_date.year == fixed_date.year)
+        # Checking date is fixed
+        fixed_date = datetime.now()
+        assert(current_date.month == fixed_date.month and current_date.year == fixed_date.year)
     print("PASSED")
 
 

@@ -23,12 +23,14 @@ if __name__ == "__main__":
 
     # NTP tests
     os.chdir("3-NTP/tests")
-    os.system("python3 start_NTP_tests.py " + DEBUG)
+    os.system("python3 start_NTP_tests.py " + DEBUG) # Add: + " breaking" to run with all tests
     os.chdir("../../")
     print("##################################################\n") 
 
     # NIS tests
-    print("NIS TESTS NOT IMPLEMENTED")
+    os.chdir("4-NIS/tests")
+    os.system("python3 start_NIS_tests.py " + DEBUG)
+    os.chdir("../../")
     print("##################################################\n") 
 
     # STO tests
