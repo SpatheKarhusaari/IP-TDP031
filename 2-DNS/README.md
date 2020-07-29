@@ -27,7 +27,7 @@ Can be found on drive, NOT DONE
     * See https://help.ubuntu.com/community/BIND9ServerHowto for an explanation
 * [/etc/bind/rev.0.0.10.in-addr.arpa.db](../2-DNS/server/etc/bind/rev.0.0.10.in-addr.arpa.db)  
     * Remember to fix permissions, 644 works!  
-    * See https://help.ubuntu.com/community/BIND9ServerHowto for an explanation
+* See [here](https://help.ubuntu.com/community/BIND9ServerHowto) for a more detailed explanation
        
 ### client-1
 ```IP: 10.0.0.3```
