@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print("##################################################\n") 
 
     # STO tests
-    print("STO TESTS NOT IMPLEMENTED")
+    print("No Tests implemented for STO")
     print("##################################################\n") 
     
     # NFS tests

@@ -23,7 +23,7 @@ apt install ntp
         * Provide a Domain Name, in our case it is: student.ida.liu.se
     * Replace /etc/default/nis with the below file
         * This will make server into the NIS server
-    * Replace /etc/ypser.securenets with the below file
+    * Replace /etc/ypserv.securenets with the below file
         * This is done to restrict access to only our subnet instead of everyone
     * Initialize the NIS server: "/usr/lib/yp/ypinit -m" and press ctrl+ d as the list of NIS servers is already appropriate
     * Replace /etc/yp.conf with the below file
