@@ -26,5 +26,4 @@
 # precedence.
 #
 +auto.master
-
 /home yp:auto.home --timeout=180

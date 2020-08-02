@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# Has to be ran on server, use add_users.py to facilitate this
+
 import sys
 import pexpect
 import os
@@ -11,7 +13,7 @@ if __name__ == "__main__":
 
         f = open("/etc/passwd", "r")
         passwd_file = f.read()
-        if username in passwd_file: 
+        if str(username) + ":" in passwd_file: 
             n = 1
             username += str(n)
             while username in passwd_file:
@@ -56,7 +58,7 @@ if __name__ == "__main__":
         restart_services.sendline("service autofs restart")
         restart_services.expect(pexpect.EOF)
 
-        print(str(username) + ": ADDED")
+        print("\"" + str(username) + "\": ADDED")
 
     elif len(sys.argv) > 3:
         print("Too many Arguments, Usage: add_user.py USERNAME PASSWORD")
