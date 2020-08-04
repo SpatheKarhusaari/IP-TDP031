@@ -1,2 +1,2 @@
-tester1 -fstype=nfs     server.student.ida.liu.se:/home1/&
-tester2 -fstype=nfs     server.student.ida.liu.se:/home2/&
+tester1 -fstype=nfs,rw server.student.ida.liu.se:/home1/tester1
+tester2 -fstype=nfs,rw server.student.ida.liu.se:/home2/tester2

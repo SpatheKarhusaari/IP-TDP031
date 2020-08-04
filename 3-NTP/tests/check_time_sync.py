@@ -22,7 +22,7 @@ if __name__ == "__main__":
     assert("synchronised to NTP server (10.0.0.1)" in result)
     
     # Screwing up time and checking whether ntp fixes it
-    if BREAKING:
+    if BREAKING: # This will break the above tests for a time.
         current_date = datetime.now()
         child = pexpect.spawn("date -s \"1 year\"")
         child.expect("" + str(current_date.year + 1) or pexpect.TIMEOUT)
